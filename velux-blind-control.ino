@@ -35,21 +35,22 @@ int targetPosition = FULLY_OPEN;
 bool reportState = true;
 
 
-void updatePostion() {
+void updatePostion()
+{
     if (currentState == stateOpening) {
         currentPosition += 10;
         if (currentPosition > FULLY_OPEN) {
             currentPosition = FULLY_OPEN;
             currentState = stateStopped;
         }
-          reportState = true;
+        reportState = true;
     } else if (currentState == stateClosing) {
         currentPosition -= 10;
         if (currentPosition < FULLY_CLOSED) {
             currentPosition = FULLY_CLOSED;
             currentState = stateStopped;
         }
-          reportState = true;
+        reportState = true;
     }
 
     if (currentState != stateStopped && currentPosition == targetPosition) {
@@ -59,7 +60,8 @@ void updatePostion() {
     }
 }
 
-void setup() {
+void setup()
+{
     pinMode(LED_BUILTIN, OUTPUT);
 
     TimerB2.initialize();
@@ -104,7 +106,8 @@ void openCommand()
     pulsePin(PIN_OPEN);
 }
 
-boolean isInteger(String str) {
+boolean isInteger(String str)
+{
     unsigned int stringLength = str.length();
 
     if (stringLength == 0) {
@@ -120,9 +123,9 @@ boolean isInteger(String str) {
     return true;
 }
 
-void loop() {
-    if (Serial.available() > 0)
-    {
+void loop()
+{
+    if (Serial.available() > 0) {
         String command = Serial.readStringUntil('\n');
         if (command.equalsIgnoreCase("close")) {
             closeCommand();
@@ -137,9 +140,9 @@ void loop() {
             // Keep things simple and only open or close (nothing in-between)
             int i = command.toInt();
             if (i < 50) {
-               closeCommand();
+                closeCommand();
             } else if (i >= 50) {
-               openCommand();
+                openCommand();
             }
             Serial.println("ok");
         } else {
@@ -155,21 +158,21 @@ void loop() {
         Serial.println(currentPosition, DEC);
 
         switch(currentState) {
-           case stateClosing:
-              Serial.println("state: closing");
-           break;
+            case stateClosing:
+                Serial.println("state: closing");
+                break;
 
-           case stateOpening:
-              Serial.println("state: opening");
-           break;
+            case stateOpening:
+                Serial.println("state: opening");
+                break;
 
-           case stateStopped:
-              Serial.println("state: stopped");
-           break;
+            case stateStopped:
+                Serial.println("state: stopped");
+                break;
 
-           default:
-              Serial.println("state: error");
-           break;
+            default:
+                Serial.println("state: error");
+                break;
         }
         reportState = false;
     }
