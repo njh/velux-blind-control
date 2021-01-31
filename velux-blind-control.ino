@@ -136,6 +136,13 @@ void loop()
         } else if (command.equalsIgnoreCase("stop")) {
             stopCommand();
             Serial.println("ok");
+        } else if (command.equalsIgnoreCase("toggle")) {
+            if (targetPosition > 50) {
+                closeCommand();
+            } else {
+                openCommand();
+            }
+            Serial.println("ok");
         } else if (isInteger(command)) {
             // Keep things simple and only open or close (nothing in-between)
             int i = command.toInt();
